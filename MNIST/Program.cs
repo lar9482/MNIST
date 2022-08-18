@@ -4,9 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-
 using MNIST.IO;
 
 namespace MNIST
@@ -25,7 +22,7 @@ namespace MNIST
 
         static void Main(string[] args)
         {
-            string testImagePath = String.Join("", new string[] { basePath, testImages});
+            string testImagePath = String.Join("", new string[] { basePath, testImages });
             string testLabelPath = String.Join("", new string[] { basePath, testLabels });
 
             List<TestCase> tests = FileReaderMNIST.LoadImagesAndLables(testLabelPath, testImagePath).ToList();
@@ -35,7 +32,6 @@ namespace MNIST
                 TestCase testCase = tests[i];
                 double[,] data = testCase.AsDouble();
                 int label = testCase.Label;
-
                 printArray(data, label);
             }*/
 
@@ -64,7 +60,8 @@ namespace MNIST
                 Console.Write("[");
                 for (int j = 0; j < data.GetLength(1); j++)
                 {
-                    if (Math.Round(data[i, j], 2) != 0) {
+                    if (Math.Round(data[i, j], 2) != 0)
+                    {
                         Console.Write(Math.Round(data[i, j], 2));
                     }
                     else
