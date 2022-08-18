@@ -49,6 +49,11 @@ namespace MNIST
                     unusedIndices = unusedIndices.Except(usedIndices).ToList();
                 }
             }
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine();
         }
 
         static void printArray(double[,] data, int label)
