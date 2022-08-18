@@ -10,8 +10,7 @@ namespace MNIST
 {
     internal class Program
     {
-
-        public static string basePath = "C:\\Users\\luker\\source\\repos\\MNIST\\";
+        public static string basePath = System.IO.Path.GetFullPath(@"..\..\") + "\\dataset\\";
 
         public static string trainImages = "train-images-idx3-ubyte.gz";
         public static string trainLabels = "train-labels-idx1-ubyte.gz";
@@ -22,34 +21,19 @@ namespace MNIST
 
         static void Main(string[] args)
         {
+            Console.WriteLine(basePath);
             string testImagePath = String.Join("", new string[] { basePath, testImages });
             string testLabelPath = String.Join("", new string[] { basePath, testLabels });
 
             List<TestCase> tests = FileReaderMNIST.LoadImagesAndLables(testLabelPath, testImagePath).ToList();
 
-            /*for (int i = 0; i < tests.Count; i++)
+            for (int i = 0; i < tests.Count; i++)
             {
                 TestCase testCase = tests[i];
                 double[,] data = testCase.AsDouble();
                 int label = testCase.Label;
                 printArray(data, label);
-            }*/
-
-            for (int i = 1; i <= 1; i++)
-            {
-                List<int> unusedIndices = Enumerable.Range(0, 60000).ToList();
-                Random rand = new Random();
-                while (unusedIndices.Count > 0)
-                {
-                    List<int> usedIndices = unusedIndices.OrderBy(x => rand.Next()).Take(100).ToList();
-                    unusedIndices = unusedIndices.Except(usedIndices).ToList();
-                }
             }
-            Console.WriteLine();
-            Console.WriteLine();
-            Console.WriteLine();
-            Console.WriteLine();
-            Console.WriteLine();
         }
 
         static void printArray(double[,] data, int label)
