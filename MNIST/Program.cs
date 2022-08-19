@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 using MNIST.IO;
 
-/*using Neural_Network.MatrixLibrary;
+using Neural_Network.MatrixLibrary;
 using Neural_Network.Activation;
 using Neural_Network.Error;
 using Neural_Network.LearningAlgorithmBase.GradientDescent;
-using Neural_Network.Network;*/
+using Neural_Network.Network.FeedForward;
 
 namespace MNIST
 {
@@ -18,7 +18,7 @@ namespace MNIST
     {
         public const int inputFeatureSize = 784;
         public const int outputFeatureSize = 10;
-        public const int samplingSize = 10;
+        public const int samplingSize = 1;
 
         public static string basePath = System.IO.Path.GetFullPath(@"..\..\") + "\\dataset\\";
 
@@ -37,19 +37,19 @@ namespace MNIST
 
             List<TestCase> tests = FileReaderMNIST.LoadImagesAndLables(testLabelPath, testImagePath).ToList();
 
-/*
+
             Matrix images = extractImages(tests);
             Matrix labels = extractLabels(tests);
 
             FeedForward_Network network = new FeedForward_Network(inputFeatureSize, outputFeatureSize, samplingSize);
-            network.addDenseLayer(128, 0.01, new sigmoid(), new GradientDescent());
+            //network.addDenseLayer(128, 0.01, new sigmoid(), new GradientDescent());
             //network.addDenseLayer(64, 0.5, new sigmoid(), new GradientDescent());
             network.compile(0.01, new sigmoid(), new crossEntropy(), new GradientDescent());
 
-            network.train(images, labels, 1);*/
+            network.train(images, labels, 1);
         }
 
-        /*public static Matrix extractImages(List<TestCase> tests)
+        public static Matrix extractImages(List<TestCase> tests)
         {
             int samplingSize = tests.Count;
             double[,] newData = new double[inputFeatureSize, samplingSize];
@@ -93,10 +93,10 @@ namespace MNIST
                     newData[j, i] = (label == j) ? (1f) : (0f);
                 }
             }
-            
+
 
             return new Matrix(newData);
-        }*/
+        }
 
         static void printArray(double[,] data, int label)
         {

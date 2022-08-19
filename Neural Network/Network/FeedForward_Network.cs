@@ -55,6 +55,7 @@ namespace Neural_Network.Network.FeedForward
         {
             if (hiddenLayers == null)
             {
+                this.hiddenLayers = new List<DenseLayer>(0);
                 this.outputLayer = new OutputLayer(outputFeatureSize, learningRate, inputLayer, activation, error, algorithm);
             }
             else
@@ -72,8 +73,13 @@ namespace Neural_Network.Network.FeedForward
             {
                 List<int> unusedIndices = Enumerable.Range(0, input.cols).ToList();
                 Random rand = new Random();
+                int index = 1;
                 while (unusedIndices.Count > 0)
                 {
+                    if (unusedIndices.Count == 55000)
+                    {
+                        Console.WriteLine();
+                    }
                     List<int> usedIndices = unusedIndices.OrderBy(x => rand.Next()).Take(samplingSize).ToList();
                     unusedIndices = unusedIndices.Except(usedIndices).ToList();
 
@@ -104,6 +110,9 @@ namespace Neural_Network.Network.FeedForward
                         hiddenLayers[j].updateWeights();
                         hiddenLayers[j].updateBias();
                     }
+
+                    Console.WriteLine("Processed " + samplingSize*index + " data items.");
+                    index++;
                 }
             }
         }

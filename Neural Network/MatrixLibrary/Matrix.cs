@@ -121,6 +121,14 @@ namespace Neural_Network.MatrixLibrary
             {
                 for (int j = 0; j < cols; j++)
                 {
+                    /*if (data[i, j] + secondMatrix.data[i, j] > 1)
+                    {
+                        newData[i, j] = 1;
+                    }
+                    else
+                    {
+                        newData[i, j] = data[i, j] + secondMatrix.data[i, j];
+                    }*/
                     newData[i, j] = data[i, j] + secondMatrix.data[i, j];
                 }
             });
