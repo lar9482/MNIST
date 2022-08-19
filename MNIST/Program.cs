@@ -6,13 +6,11 @@ using System.Threading.Tasks;
 
 using MNIST.IO;
 
-using Neural_Network.MatrixLibrary;
-
-
-using Neural_Network.Network.FeedForward;
+/*using Neural_Network.MatrixLibrary;
 using Neural_Network.Activation;
 using Neural_Network.Error;
 using Neural_Network.LearningAlgorithmBase.GradientDescent;
+using Neural_Network.Network;*/
 
 namespace MNIST
 {
@@ -39,7 +37,7 @@ namespace MNIST
 
             List<TestCase> tests = FileReaderMNIST.LoadImagesAndLables(testLabelPath, testImagePath).ToList();
 
-
+/*
             Matrix images = extractImages(tests);
             Matrix labels = extractLabels(tests);
 
@@ -48,10 +46,10 @@ namespace MNIST
             //network.addDenseLayer(64, 0.5, new sigmoid(), new GradientDescent());
             network.compile(0.01, new sigmoid(), new crossEntropy(), new GradientDescent());
 
-            network.train(images, labels, 1);
+            network.train(images, labels, 1);*/
         }
 
-        public static Matrix extractImages(List<TestCase> tests)
+        /*public static Matrix extractImages(List<TestCase> tests)
         {
             int samplingSize = tests.Count;
             double[,] newData = new double[inputFeatureSize, samplingSize];
@@ -98,7 +96,7 @@ namespace MNIST
             
 
             return new Matrix(newData);
-        }
+        }*/
 
         static void printArray(double[,] data, int label)
         {

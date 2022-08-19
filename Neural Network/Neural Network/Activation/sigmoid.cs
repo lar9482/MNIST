@@ -14,7 +14,7 @@ namespace Neural_Network.Activation
 
         public override double activateDerivative(double input)
         {
-            return (double) ((activate(input)) / (1 - activate(input)));
+            return (double) ((activate(input)) * (1 - activate(input)));
         }
     }
 }
