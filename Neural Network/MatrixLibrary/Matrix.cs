@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Neural_Network.MatrixLibrary
 {
@@ -66,13 +68,21 @@ namespace Neural_Network.MatrixLibrary
         {
             double[,] newData = new double[rows, cols];
 
-            for (int cur_Row = 0; cur_Row < rows; cur_Row++)
+            Parallel.For(0, rows, cur_Row =>
             {
                 for (int cur_Col = 0; cur_Col < cols; cur_Col++)
                 {
                     newData[cur_Row, cur_Col] = data[cur_Row, cur_Col] * scalar;
                 }
-            }
+            });
+
+            /*for (int cur_Row = 0; cur_Row < rows; cur_Row++)
+            {
+                for (int cur_Col = 0; cur_Col < cols; cur_Col++)
+                {
+                    newData[cur_Row, cur_Col] = data[cur_Row, cur_Col] * scalar;
+                }
+            }*/
 
             return new Matrix(newData);
         }
@@ -81,14 +91,21 @@ namespace Neural_Network.MatrixLibrary
         {
             double[,] newData = new double[cols, rows];
 
-
-            for (int i = 0; i < cols; i++)
+            Parallel.For(0, cols, i =>
             {
                 for (int j = 0; j < rows; j++)
                 {
                     newData[i, j] = data[j, i];
                 }
-            }
+            });
+
+            /*for (int i = 0; i < cols; i++)
+            {
+                for (int j = 0; j < rows; j++)
+                {
+                    newData[i, j] = data[j, i];
+                }
+            }*/
             return new Matrix(newData);
         }
         
@@ -100,13 +117,21 @@ namespace Neural_Network.MatrixLibrary
             }
 
             double[,] newData = new double[rows, cols];
-            for (int i = 0; i < rows; i++)
+            Parallel.For(0, rows, i =>
             {
                 for (int j = 0; j < cols; j++)
                 {
                     newData[i, j] = data[i, j] + secondMatrix.data[i, j];
                 }
-            }
+            });
+
+            /*for (int i = 0; i < rows; i++)
+            {
+                for (int j = 0; j < cols; j++)
+                {
+                    newData[i, j] = data[i, j] + secondMatrix.data[i, j];
+                }
+            }*/
             return new Matrix(newData);
         }
 
@@ -118,7 +143,8 @@ namespace Neural_Network.MatrixLibrary
                 throw new Exception("The columns of the first matrix and rows of the second matrix must be equal.");
             }
             double[,] newData = new double[rows, secondMatrix.cols];
-            for (int i = 0; i < rows; i++)
+
+            Parallel.For(0, rows, i =>
             {
                 for (int j = 0; j < secondMatrix.cols; j++)
                 {
@@ -130,7 +156,21 @@ namespace Neural_Network.MatrixLibrary
 
                     newData[i, j] = sum;
                 }
-            }
+            });
+
+            /*for (int i = 0; i < rows; i++)
+            {
+                for (int j = 0; j < secondMatrix.cols; j++)
+                {
+                    double sum = 0;
+                    for (int k = 0; k < secondMatrix.rows; k++)
+                    {
+                        sum += (data[i, k] * secondMatrix.data[k, j]);
+                    }
+
+                    newData[i, j] = sum;
+                }
+            }*/
 
 
             return new Matrix(newData);
@@ -145,13 +185,22 @@ namespace Neural_Network.MatrixLibrary
             }
 
             double[,] newData = new double[rows, cols];
-            for (int i = 0; i < rows; i++)
+
+            Parallel.For(0, rows, i =>
             {
                 for (int j = 0; j < cols; j++)
                 {
                     newData[i, j] = data[i, j] * secondMatrix.data[i, j];
                 }
-            }
+            });
+
+            /*for (int i = 0; i < rows; i++)
+            {
+                for (int j = 0; j < cols; j++)
+                {
+                    newData[i, j] = data[i, j] * secondMatrix.data[i, j];
+                }
+            }*/
 
             return new Matrix(newData);
         }
