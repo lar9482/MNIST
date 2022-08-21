@@ -38,29 +38,33 @@ namespace Neural_Network.Network.FeedForward
             this.inputLayer = new InputLayer(inputFeatureSize, samplingSize);
         }
 
-        public void addDenseLayer(int layerSize, double learningRate, activationFunction activation, LearningAlgorithm algorithm)
+        public void addDenseLayer(int layerSize, double learningRate, activationFunction activation, LearningAlgorithm algorithm,
+                                  double gradientClippingTolerance = -1
+        )
         {
             if (hiddenLayers == null)
             {
                 hiddenLayers = new List<DenseLayer>(5);
-                hiddenLayers.Add(new DenseLayer(layerSize, learningRate, inputLayer, activation, algorithm));
+                hiddenLayers.Add(new DenseLayer(layerSize, learningRate, inputLayer, activation, algorithm, gradientClippingTolerance));
             }
             else
             {
-                hiddenLayers.Add(new DenseLayer(layerSize, learningRate, hiddenLayers.Last(), activation, algorithm));
+                hiddenLayers.Add(new DenseLayer(layerSize, learningRate, hiddenLayers.Last(), activation, algorithm, gradientClippingTolerance));
             }
         }
 
-        public void compile(double learningRate, activationFunction activation, errorFunction error, LearningAlgorithm algorithm)
+        public void compile(double learningRate, activationFunction activation, errorFunction error, LearningAlgorithm algorithm,
+                            double gradientClippingTolerance = -1
+            )
         {
             if (hiddenLayers == null)
             {
                 this.hiddenLayers = new List<DenseLayer>(0);
-                this.outputLayer = new OutputLayer(outputFeatureSize, learningRate, inputLayer, activation, error, algorithm);
+                this.outputLayer = new OutputLayer(outputFeatureSize, learningRate, inputLayer, activation, error, algorithm, gradientClippingTolerance);
             }
             else
             {
-                this.outputLayer = new OutputLayer(outputFeatureSize, learningRate, hiddenLayers.Last(), activation, error, algorithm);
+                this.outputLayer = new OutputLayer(outputFeatureSize, learningRate, hiddenLayers.Last(), activation, error, algorithm, gradientClippingTolerance);
             }
             
         }
@@ -76,7 +80,7 @@ namespace Neural_Network.Network.FeedForward
                 int index = 1;
                 while (unusedIndices.Count > 0)
                 {
-                    if (unusedIndices.Count == 55000)
+                    if (unusedIndices.Count == 30000)
                     {
                         Console.WriteLine();
                     }

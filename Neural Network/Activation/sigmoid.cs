@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Neural_Network.MatrixLibrary;
 
 namespace Neural_Network.Activation
 {

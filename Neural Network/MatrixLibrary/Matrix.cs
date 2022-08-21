@@ -213,6 +213,34 @@ namespace Neural_Network.MatrixLibrary
             return new Matrix(newData);
         }
 
+        public double norm()
+        {
+            double result = 0;
+            Parallel.For(0, rows, i =>
+            {
+                for (int j = 0; j < cols; j++)
+                {
+                    result += (data[i, j] * data[i, j]);
+                }
+            });
+
+            return Math.Sqrt(result);
+        }
+
+        public Matrix invertElements()
+        {
+            double[,] newData = new double[rows, cols];
+            Parallel.For(0, rows, i =>
+            {
+                for (int j = 0; j < cols; j++)
+                {
+                    newData[i, j] = 1 - data[i, j];
+                }
+            });
+
+            return new Matrix(newData);
+        }
+
         public bool sameSize(Matrix matrix)
         {
             return (rows == matrix.rows && cols == matrix.cols);

@@ -1,18 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using Neural_Network.MatrixLibrary;
 
 namespace Neural_Network.Error
 {
-    public abstract class errorFunction
+    public class MSE : errorFunction
     {
+        public override double error(double expected, double actual)
+        {
+            return (expected-actual)*(expected - actual);
+        }
 
-        public abstract double error(double expected, double actual);
-        public abstract double errorDerivative(double expected, double actual);
-        
+        public override double errorDerivative(double expected, double actual)
+        {
+            return 2*(expected - actual);
+        }
 
-        public virtual Matrix errorMatrix(Matrix expectedMatrix, Matrix actualMatrix)
+        public override Matrix errorMatrix(Matrix expectedMatrix, Matrix actualMatrix)
         {
             if (!expectedMatrix.sameSize(actualMatrix))
             {
@@ -20,18 +27,20 @@ namespace Neural_Network.Error
             }
 
             double[,] errorData = new double[expectedMatrix.rows, expectedMatrix.cols];
+            double predictionNum = (double)expectedMatrix.rows*expectedMatrix.cols;
+
             for (int i = 0; i < expectedMatrix.rows; i++)
             {
                 for (int j = 0; j < expectedMatrix.cols; j++)
                 {
-                    errorData[i, j] = error(expectedMatrix.data[i, j], actualMatrix.data[i, j]);
+                    errorData[i, j] = error(expectedMatrix.data[i, j], actualMatrix.data[i, j]) / predictionNum;
                 }
             }
 
             return new Matrix(errorData);
         }
 
-        public virtual Matrix errorDerivativeMatrix(Matrix expectedMatrix, Matrix actualMatrix)
+        public override Matrix errorDerivativeMatrix(Matrix expectedMatrix, Matrix actualMatrix)
         {
             if (!expectedMatrix.sameSize(actualMatrix))
             {
@@ -39,11 +48,13 @@ namespace Neural_Network.Error
             }
 
             double[,] errorData = new double[expectedMatrix.rows, expectedMatrix.cols];
+            double predictionNum = (double)expectedMatrix.rows * expectedMatrix.cols;
+
             for (int i = 0; i < expectedMatrix.rows; i++)
             {
                 for (int j = 0; j < expectedMatrix.cols; j++)
                 {
-                    errorData[i, j] = errorDerivative(expectedMatrix.data[i, j], actualMatrix.data[i, j]);
+                    errorData[i, j] = errorDerivative(expectedMatrix.data[i, j], actualMatrix.data[i, j]) / predictionNum;
                 }
             }
 

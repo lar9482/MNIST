@@ -30,8 +30,13 @@ namespace Neural_Network.Layers.FeedForward.Dense
 
         protected double learningRate { get; set; }
 
+        protected double gradientClippingTolerance = -1;
 
-        public DenseLayer(int layerSize, double learningRate, InputLayer previousLayer, activationFunction activation, LearningAlgorithm algorithm)
+
+        public DenseLayer(int layerSize, double learningRate, InputLayer previousLayer, activationFunction activation, LearningAlgorithm algorithm,
+                          double gradientClippingTolerance = -1
+           
+        )
         {
 
             this.learningRate = learningRate;
@@ -46,9 +51,13 @@ namespace Neural_Network.Layers.FeedForward.Dense
 
             this.activation = activation;
             this.algorithm = algorithm;
+
+            this.gradientClippingTolerance = gradientClippingTolerance;
         }
 
-        public DenseLayer(int layerSize, double learningRate, DenseLayer previousLayer, activationFunction activation, LearningAlgorithm algorithm)
+        public DenseLayer(int layerSize, double learningRate, DenseLayer previousLayer, activationFunction activation, LearningAlgorithm algorithm,
+                          double gradientClippingTolerance = -1
+        )
         {
             this.learningRate = learningRate;
 
@@ -63,6 +72,8 @@ namespace Neural_Network.Layers.FeedForward.Dense
 
             this.activation = activation;
             this.algorithm = algorithm;
+
+            this.gradientClippingTolerance = gradientClippingTolerance;
         }
 
         public void feedForward()
@@ -87,6 +98,12 @@ namespace Neural_Network.Layers.FeedForward.Dense
             Matrix weightChange = localChange.matrixMultiply(previousContent);
             weightChange = weightChange.scalarMultiply(-learningRate);
 
+            if (gradientClippingTolerance != -1)
+            {
+                weightChange = weightChange.scalarMultiply((double)(gradientClippingTolerance / weightChange.norm()));
+            }
+
+            Console.WriteLine("Gradient weight norm: " + weightChange.norm());
             weights = weights.matrixAdd(weightChange);
         }
 
@@ -94,6 +111,13 @@ namespace Neural_Network.Layers.FeedForward.Dense
         {
             Matrix localChange = algorithm.localChange;
             Matrix biasChange = localChange.scalarMultiply(-learningRate);
+
+            if (gradientClippingTolerance != 0)
+            {
+                biasChange = biasChange.scalarMultiply((double)(gradientClippingTolerance / bias.norm()));
+            }
+
+            Console.WriteLine("Gradient bias norm: " + biasChange.norm());
 
             bias = bias.matrixAdd(biasChange);
         }

@@ -22,31 +22,39 @@ namespace Neural_Network.Layers.FeedForward.Output
 
 
         public OutputLayer(Matrix truthMatrix, double learningRate, DenseLayer previousLayer, activationFunction activation,
-                           errorFunction error, LearningAlgorithm algorithm)
-            : base(truthMatrix.rows, learningRate, previousLayer, activation, algorithm)
+                           errorFunction error, LearningAlgorithm algorithm, 
+                           double gradientClippingTolerance = -1
+            )
+            : base(truthMatrix.rows, learningRate, previousLayer, activation, algorithm, gradientClippingTolerance)
         {
             this.errorFunction = error;
             this.truthMatrix = truthMatrix;
         }
 
         public OutputLayer(int outputFeatureSize, double learningRate, DenseLayer previousLayer, activationFunction activation,
-                           errorFunction error, LearningAlgorithm algorithm)
-            : base(outputFeatureSize, learningRate, previousLayer, activation, algorithm)
+                           errorFunction error, LearningAlgorithm algorithm,
+                           double gradientClippingTolerance = -1
+                          )
+            : base(outputFeatureSize, learningRate, previousLayer, activation, algorithm, gradientClippingTolerance)
         {
             this.errorFunction = error;
         }
 
         public OutputLayer(Matrix truthMatrix, double learningRate, InputLayer previousLayer, activationFunction activation,
-                           errorFunction error, LearningAlgorithm algorithm)
-            : base(truthMatrix.rows, learningRate, previousLayer, activation, algorithm)
+                           errorFunction error, LearningAlgorithm algorithm,
+                           double gradientClippingTolerance = -1
+                           )
+            : base(truthMatrix.rows, learningRate, previousLayer, activation, algorithm, gradientClippingTolerance)
         {
             this.errorFunction = error;
             this.truthMatrix = truthMatrix;
         }
 
         public OutputLayer(int outputFeatureSize, double learningRate, InputLayer previousLayer, activationFunction activation,
-                           errorFunction error, LearningAlgorithm algorithm)
-            : base(outputFeatureSize, learningRate, previousLayer, activation, algorithm)
+                           errorFunction error, LearningAlgorithm algorithm,
+                           double gradientClippingTolerance = -1
+                           )
+            : base(outputFeatureSize, learningRate, previousLayer, activation, algorithm, gradientClippingTolerance)
         {
             this.errorFunction = error;
         }

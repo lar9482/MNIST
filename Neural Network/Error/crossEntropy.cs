@@ -10,12 +10,12 @@ namespace Neural_Network.Error
     {
         public override double error(double expected, double actual)
         {
-            return -(expected*Math.Log(actual) + (1-expected)*Math.Log(1-actual));
+            return -(expected*Math.Log(actual));
         }
 
         public override double errorDerivative(double expected, double actual)
         {
-            return -((expected / actual) + (1-expected)/(1-actual) );
+            return -((expected / actual));
         }
     }
 }
