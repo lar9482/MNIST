@@ -18,7 +18,7 @@ namespace MNIST
     {
         public const int inputFeatureSize = 784;
         public const int outputFeatureSize = 10;
-        public const int samplingSize = 100;
+        public const int samplingSize = 1;
 
         public static string basePath = System.IO.Path.GetFullPath(@"..\..\") + "\\dataset\\";
 
@@ -31,25 +31,24 @@ namespace MNIST
 
         static void Main(string[] args)
         {
-            Console.WriteLine(basePath);
+            trainNetwork();
+        }
+
+        public static void trainNetwork()
+        {
             string testImagePath = String.Join("", new string[] { basePath, trainImages });
             string testLabelPath = String.Join("", new string[] { basePath, trainLabels });
 
             List<TestCase> tests = FileReaderMNIST.LoadImagesAndLables(testLabelPath, testImagePath).ToList();
-            
-
 
             Matrix images = extractImages(tests);
             Matrix labels = extractLabels(tests);
 
             FeedForward_Network network = new FeedForward_Network(inputFeatureSize, outputFeatureSize, samplingSize);
             network.addDenseLayer(128, 0.5, new sigmoid(), new GradientDescent());
-            //network.addDenseLayer(64, 0.5, new sigmoid(), new GradientDescent());
             network.compile(0.2, new softmax(), new crossEntropy(), new GradientDescent());
 
-            network.train(images, labels, 1000);
-
-            //Matrix output = network.predict()
+            network.train(images, labels, 10);
         }
 
         public static Matrix extractImages(List<TestCase> tests)

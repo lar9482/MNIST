@@ -80,10 +80,6 @@ namespace Neural_Network.Network.FeedForward
                 int index = 1;
                 while (unusedIndices.Count > 0)
                 {
-                    if (unusedIndices.Count == 30000)
-                    {
-                        Console.WriteLine();
-                    }
                     List<int> usedIndices = unusedIndices.OrderBy(x => rand.Next()).Take(samplingSize).ToList();
                     unusedIndices = unusedIndices.Except(usedIndices).ToList();
 

@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MNIST", "MNIST\MNIST.csproj
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Neural Network", "Neural Network\Neural Network.csproj", "{0C11AD79-15F3-41A4-852A-8F58F01E7840}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SerializationTools", "SerializationTools\SerializationTools.csproj", "{C53CE025-F366-4080-8693-FA53C4B13904}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{0C11AD79-15F3-41A4-852A-8F58F01E7840}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0C11AD79-15F3-41A4-852A-8F58F01E7840}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0C11AD79-15F3-41A4-852A-8F58F01E7840}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C53CE025-F366-4080-8693-FA53C4B13904}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C53CE025-F366-4080-8693-FA53C4B13904}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C53CE025-F366-4080-8693-FA53C4B13904}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C53CE025-F366-4080-8693-FA53C4B13904}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

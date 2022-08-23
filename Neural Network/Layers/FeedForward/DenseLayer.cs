@@ -112,12 +112,12 @@ namespace Neural_Network.Layers.FeedForward.Dense
             Matrix localChange = algorithm.localChange;
             Matrix biasChange = localChange.scalarMultiply(-learningRate);
 
-            if (gradientClippingTolerance != 0)
+            if (gradientClippingTolerance != -1)
             {
                 biasChange = biasChange.scalarMultiply((double)(gradientClippingTolerance / bias.norm()));
             }
 
-            Console.WriteLine("Gradient bias norm: " + biasChange.norm());
+            //Console.WriteLine("Gradient bias norm: " + biasChange.norm());
 
             bias = bias.matrixAdd(biasChange);
         }
