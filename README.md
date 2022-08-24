@@ -1,3 +1,4 @@
 # First network.
-## Architecture
-   - 
+### Architecture
+   - Feedforward
+### Hidden layers
