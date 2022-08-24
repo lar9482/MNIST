@@ -131,6 +131,22 @@ namespace Neural_Network.Network.FeedForward
             return outputLayer.contents;
         }
 
+        public double errorCalculate(Matrix expected, Matrix predicted)
+        {
+            //trainParameterCheck(expected, predicted);
+            double result = 0.00;
+
+            for (int i = 0; i < predicted.rows; i++)
+            {
+                for (int j = 0; j < predicted.cols; j++)
+                {
+                    result += outputLayer.errorFunction.error(expected.data[i, j], predicted.data[i, j]);
+                }
+            }
+
+            return result;
+        }
+
         private void trainParameterCheck(Matrix input, Matrix output)
         {
             if (!inputCheck(input))

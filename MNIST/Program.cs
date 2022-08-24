@@ -22,7 +22,7 @@ namespace MNIST
     {
         public const int inputFeatureSize = 784;
         public const int outputFeatureSize = 10;
-        public const int samplingSize = 1;
+        public const int samplingSize = 100;
 
         public static string basePath = System.IO.Path.GetFullPath(@"..\..\");
 
@@ -32,7 +32,7 @@ namespace MNIST
         public static string testImages = "t10k-images-idx3-ubyte.gz";
         public static string testLabels = "t10k-labels-idx1-ubyte.gz";
 
-        public static string fileName = "MNIST_Network.json";
+        public static string fileName = "MNIST_NeuralNetwork_100.json";
 
 
         static void Main(string[] args)
@@ -52,10 +52,10 @@ namespace MNIST
             Matrix labels = extractLabels(trainingCases);
 
             FeedForward_Network network = new FeedForward_Network(inputFeatureSize, outputFeatureSize, samplingSize);
-            network.addDenseLayer(128, 0.5, new sigmoid(), new GradientDescent());
-            network.compile(0.2, new softmax(), new crossEntropy(), new GradientDescent());
+            network.addDenseLayer(128, 0.1, new sigmoid(), new GradientDescent());
+            network.compile(0.1, new softmax(), new crossEntropy(), new GradientDescent());
 
-            network.train(images, labels, 10);
+            network.train(images, labels, 50);
 
 
             FeedForward_Network_Object.saveObject(String.Join("\\", new string[] { basePath, fileName }), network);
@@ -74,6 +74,7 @@ namespace MNIST
             FeedForward_Network network = FeedForward_Network_Object.loadObject(String.Join("\\", new string[] { basePath, fileName }));
             List<int> unusedIndices = Enumerable.Range(0, testLabelsMatrix.cols).ToList();
             Random rand = new Random();
+            double average = 0.00;
             while (unusedIndices.Count > 0)
             {
                 List<int> usedIndices = unusedIndices.OrderBy(x => rand.Next()).Take(samplingSize).ToList();
@@ -83,8 +84,14 @@ namespace MNIST
 
                 Matrix predicted = network.predict(input);
                 Matrix expected = Matrix_Utilities.getMatrixColumns(testLabelsMatrix, usedIndices);
+
+                average += network.errorCalculate(expected, predicted);
+                
             }
+            Console.WriteLine(average / testLabelsMatrix.cols);
         }
+
+
         public static Matrix extractImages(List<TestCase> tests)
         {
             int samplingSize = tests.Count;
