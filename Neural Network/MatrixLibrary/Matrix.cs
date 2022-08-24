@@ -12,6 +12,8 @@ namespace Neural_Network.MatrixLibrary
         public int rows { get; set; }
         public int cols { get; set; }
 
+        public Matrix() { }
+
         public Matrix(double[,] data, int rows, int cols)
         {
             this.data = data;

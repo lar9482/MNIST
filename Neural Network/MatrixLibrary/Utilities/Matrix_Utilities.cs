@@ -10,7 +10,7 @@ namespace Neural_Network.MatrixLibrary.Utilities
     {
         public static Matrix getMatrixColumns(Matrix matrix, List<int> indices)
         {
-            if (!indiceColumnCheck(0, matrix.cols-1, indices))
+            if (!indiceColumnCheck(0, matrix.cols-1, indices) && indices.Count != matrix.cols)
             {
                 return null;
             }

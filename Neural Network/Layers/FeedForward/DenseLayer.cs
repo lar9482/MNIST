@@ -28,11 +28,11 @@ namespace Neural_Network.Layers.FeedForward.Dense
         public activationFunction activation { get; set; }
         public LearningAlgorithm algorithm { get; set; }
 
-        protected double learningRate { get; set; }
+        public double learningRate { get; set; }
 
         protected double gradientClippingTolerance = -1;
 
-
+        public DenseLayer() { }
         public DenseLayer(int layerSize, double learningRate, InputLayer previousLayer, activationFunction activation, LearningAlgorithm algorithm,
                           double gradientClippingTolerance = -1
            

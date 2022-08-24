@@ -20,13 +20,13 @@ namespace Neural_Network.Network.FeedForward
 {
     public class FeedForward_Network
     {
-        private InputLayer inputLayer;
-        private List<DenseLayer> hiddenLayers;
-        private OutputLayer outputLayer;
+        public InputLayer inputLayer { get; set; }
+        public List<DenseLayer> hiddenLayers { get; set; }
+        public OutputLayer outputLayer { get; set; }
 
-        private int samplingSize;
-        private int inputFeatureSize;
-        private int outputFeatureSize;
+        public int samplingSize { get; set; }
+        public int inputFeatureSize { get; set; }
+        public int outputFeatureSize { get; set; }
 
 
         public FeedForward_Network(int inputFeatureSize, int outputFeatureSize, int samplingSize)

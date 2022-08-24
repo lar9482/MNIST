@@ -12,6 +12,10 @@ using Neural_Network.Error;
 using Neural_Network.LearningAlgorithmBase.GradientDescent;
 using Neural_Network.Network.FeedForward;
 
+using Neural_Network.MatrixLibrary.Utilities;
+
+using SerializationTools.Network.FeedForward;
+
 namespace MNIST
 {
     internal class Program
@@ -20,7 +24,7 @@ namespace MNIST
         public const int outputFeatureSize = 10;
         public const int samplingSize = 1;
 
-        public static string basePath = System.IO.Path.GetFullPath(@"..\..\") + "\\dataset\\";
+        public static string basePath = System.IO.Path.GetFullPath(@"..\..\");
 
         public static string trainImages = "train-images-idx3-ubyte.gz";
         public static string trainLabels = "train-labels-idx1-ubyte.gz";
@@ -28,29 +32,59 @@ namespace MNIST
         public static string testImages = "t10k-images-idx3-ubyte.gz";
         public static string testLabels = "t10k-labels-idx1-ubyte.gz";
 
+        public static string fileName = "MNIST_Network.json";
+
 
         static void Main(string[] args)
         {
-            trainNetwork();
+            //trainNetwork();
+            testNetwork();
         }
 
         public static void trainNetwork()
         {
-            string testImagePath = String.Join("", new string[] { basePath, trainImages });
-            string testLabelPath = String.Join("", new string[] { basePath, trainLabels });
+            string trainImagePath = String.Join("\\", new string[] { basePath, "dataset", trainImages });
+            string trainLabelPath = String.Join("\\", new string[] { basePath, "dataset", trainLabels });
 
-            List<TestCase> tests = FileReaderMNIST.LoadImagesAndLables(testLabelPath, testImagePath).ToList();
+            List<TestCase> trainingCases = FileReaderMNIST.LoadImagesAndLables(trainLabelPath, trainImagePath).ToList();
 
-            Matrix images = extractImages(tests);
-            Matrix labels = extractLabels(tests);
+            Matrix images = extractImages(trainingCases);
+            Matrix labels = extractLabels(trainingCases);
 
             FeedForward_Network network = new FeedForward_Network(inputFeatureSize, outputFeatureSize, samplingSize);
             network.addDenseLayer(128, 0.5, new sigmoid(), new GradientDescent());
             network.compile(0.2, new softmax(), new crossEntropy(), new GradientDescent());
 
             network.train(images, labels, 10);
+
+
+            FeedForward_Network_Object.saveObject(String.Join("\\", new string[] { basePath, fileName }), network);
         }
 
+        public static void testNetwork()
+        {
+            string testImagePath = String.Join("\\", new string[] { basePath, "dataset", testImages });
+            string testLabelPath = String.Join("\\", new string[] { basePath, "dataset", testLabels });
+
+            List<TestCase> testCases = FileReaderMNIST.LoadImagesAndLables(testLabelPath, testImagePath).ToList();
+
+            Matrix testImagesMatrix = extractImages(testCases);
+            Matrix testLabelsMatrix = extractLabels(testCases);
+
+            FeedForward_Network network = FeedForward_Network_Object.loadObject(String.Join("\\", new string[] { basePath, fileName }));
+            List<int> unusedIndices = Enumerable.Range(0, testLabelsMatrix.cols).ToList();
+            Random rand = new Random();
+            while (unusedIndices.Count > 0)
+            {
+                List<int> usedIndices = unusedIndices.OrderBy(x => rand.Next()).Take(samplingSize).ToList();
+                unusedIndices = unusedIndices.Except(usedIndices).ToList();
+
+                Matrix input = Matrix_Utilities.getMatrixColumns(testImagesMatrix, usedIndices);
+
+                Matrix predicted = network.predict(input);
+                Matrix expected = Matrix_Utilities.getMatrixColumns(testLabelsMatrix, usedIndices);
+            }
+        }
         public static Matrix extractImages(List<TestCase> tests)
         {
             int samplingSize = tests.Count;

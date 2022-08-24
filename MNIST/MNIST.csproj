@@ -188,6 +188,10 @@
       <Project>{0c11ad79-15f3-41a4-852a-8f58f01e7840}</Project>
       <Name>Neural Network</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SerializationTools\SerializationTools.csproj">
+      <Project>{c53ce025-f366-4080-8693-fa53c4b13904}</Project>
+      <Name>SerializationTools</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

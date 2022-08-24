@@ -88,6 +88,15 @@ namespace SerializationTools.Network.FeedForward
                 }
             }
 
+            if (network.hiddenLayers.Count == 0)
+            {
+                network.outputLayer.previousLayer = network.inputLayer;
+            }
+            else
+            {
+                network.outputLayer.previousLayer = network.hiddenLayers.Last();
+            }
+
             return network;
         }
 
