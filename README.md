@@ -21,10 +21,10 @@
    - Error: Cross Entropy
    - Learning Algorithm: Stochastic Gradient Descent
    
- ### Training strategy:
+### Training strategy:
     - Batch Size: 1
     - Trained the network on 60,000 training images of 28*28 pixels with one-hot encoded labels.
     - Training using 10 epochs.
     
- ### Performance:
+### Performance:
     - Reported error: Around 77% accuracy. 
