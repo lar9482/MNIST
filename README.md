@@ -1,6 +1,6 @@
 # Best network committed (as of 8/26/2022)
 ### Architecture
-   - Feedforward
+   - [Feedforward](https://en.wikipedia.org/wiki/Feedforward_neural_network#:~:text=The%20feedforward%20neural%20network%20was,or%20loops%20in%20the%20network.)
    
 ### Input Layer
    - X Dimension: 724
