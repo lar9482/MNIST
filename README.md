@@ -22,9 +22,9 @@
    - Learning Algorithm: Stochastic Gradient Descent
 
 ### Training strategy
-   - Batch Size: 1
+   - Batch Size: 100
    - Trained the network on 60,000 training images of 28*28 pixels with one-hot encoded labels
-   - Training using 10 epochs
+   - Training using 50 epochs
  
 ### Performance
    - Reported error: Around 84% accuracy on testing images.
