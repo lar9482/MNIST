@@ -1,22 +1,22 @@
-# Best network committed (as of 8/23/2022)
+# Best network committed (as of 8/26/2022)
 ### Architecture
    - Feedforward
    
 ### Input Layer
    - X Dimension: 724
-   - Y Dimension: 1
+   - Y Dimension: 100
    
 ### First Hidden layer
    - X Dimension: 128
-   - Y Dimension: 1
-   - Learning Rate: 0.5
+   - Y Dimension: 100
+   - Learning Rate: 0.1
    - Activation: Sigmoid
    - Learning Algorithm: Stochastic Gradient Descent
    
 ### Output Layer
    - X Dimension: 10
-   - Y Dimension: 1
-   - Learning Rate: 0.2
+   - Y Dimension: 100
+   - Learning Rate: 0.1
    - Activation: Softmax
    - Error: Cross Entropy
    - Learning Algorithm: Stochastic Gradient Descent
@@ -27,4 +27,4 @@
    - Training using 10 epochs
  
 ### Performance
-   - Reported error: Around 77% accuracy on testing images.
+   - Reported error: Around 84% accuracy on testing images.
