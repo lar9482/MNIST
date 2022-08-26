@@ -6,7 +6,7 @@
    - X Dimension: 724
    - Y Dimension: 100
    
-### First Hidden layer
+### Dense Hidden layer
    - X Dimension: 128
    - Y Dimension: 100
    - Learning Rate: 0.1
