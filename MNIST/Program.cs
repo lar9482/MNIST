@@ -91,6 +91,72 @@ namespace MNIST
             Console.WriteLine(average / testLabelsMatrix.cols);
         }
 
+        public static void testNetwork1()
+        {
+            string testImagePath = String.Join("\\", new string[] { basePath, "dataset", testImages });
+            string testLabelPath = String.Join("\\", new string[] { basePath, "dataset", testLabels });
+
+            List<TestCase> testCases = FileReaderMNIST.LoadImagesAndLables(testLabelPath, testImagePath).ToList();
+
+            Matrix testImagesMatrix = extractImages(testCases);
+            Matrix testLabelsMatrix = extractLabels(testCases);
+
+            FeedForward_Network network = FeedForward_Network_Object.loadObject(String.Join("\\", new string[] { basePath, fileName }));
+            List<int> unusedIndices = Enumerable.Range(0, testLabelsMatrix.cols).ToList();
+            Random rand = new Random();
+            double average = 0.00;
+            while (unusedIndices.Count > 0)
+            {
+                List<int> usedIndices = unusedIndices.OrderBy(x => rand.Next()).Take(1).ToList();
+                unusedIndices = unusedIndices.Except(usedIndices).ToList();
+
+                Matrix input = Matrix_Utilities.getMatrixColumns(testImagesMatrix, usedIndices);
+
+                double[,] newData = new double[testImagesMatrix.rows, samplingSize];
+                for (int j = 0; j < samplingSize; j++)
+                {
+                    for (int i = 0; i < testImagesMatrix.rows; i++)
+                    {
+                        if (j == 0)
+                        {
+                            newData[i, j] = input.data[i, j];
+                        }
+                        else
+                        {
+                            newData[i, j] = 0;
+                        }
+                    }
+                }
+                input = new Matrix(newData);
+
+                Matrix predicted = network.predict(input);
+
+                double[,] newExpectedData = new double[testLabelsMatrix.rows, samplingSize];
+                Matrix expected = Matrix_Utilities.getMatrixColumns(testLabelsMatrix, usedIndices);
+
+                for (int j = 0; j < samplingSize; j++)
+                {
+                    for (int i = 0; i < testLabelsMatrix.rows; i++)
+                    {
+                        if (j == 0)
+                        {
+                            newExpectedData[i, j] = expected.data[i, j];
+                        }
+                        else
+                        {
+                            newExpectedData[i, j] = 0;
+                        }
+                    }
+                }
+
+                expected = new Matrix(newExpectedData);
+                average += network.errorCalculate(expected, predicted);
+
+                Console.WriteLine(unusedIndices.Count);
+            }
+            Console.WriteLine(average / testLabelsMatrix.cols);
+        }
+
 
         public static Matrix extractImages(List<TestCase> tests)
         {

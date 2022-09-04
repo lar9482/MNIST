@@ -59,7 +59,7 @@ namespace Neural_Network.Network.FeedForward
         {
             if (hiddenLayers == null)
             {
-                this.hiddenLayers = new List<DenseLayer>(0);
+                this.hiddenLayers = new List<DenseLayer>(5);
                 this.outputLayer = new OutputLayer(outputFeatureSize, learningRate, inputLayer, activation, error, algorithm, gradientClippingTolerance);
             }
             else
@@ -75,14 +75,19 @@ namespace Neural_Network.Network.FeedForward
 
             for (int i = 1; i <= epochs; i++)
             {
+                //Getting the indexoes 0 to number of columns as a list.
                 List<int> unusedIndices = Enumerable.Range(0, input.cols).ToList();
                 Random rand = new Random();
                 int index = 1;
+
+                //While there still are ununsed indexes.
                 while (unusedIndices.Count > 0)
                 {
+                    //Grab a random sampling from the unused index list.
                     List<int> usedIndices = unusedIndices.OrderBy(x => rand.Next()).Take(samplingSize).ToList();
                     unusedIndices = unusedIndices.Except(usedIndices).ToList();
 
+                    //Use the grabbed sample to 
                     Matrix batchedInput = Matrix_Utilities.getMatrixColumns(input, usedIndices);
                     Matrix batchedOutput = Matrix_Utilities.getMatrixColumns(output, usedIndices);
 

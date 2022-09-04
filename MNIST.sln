@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Neural Network", "Neural Ne
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SerializationTools", "SerializationTools\SerializationTools.csproj", "{C53CE025-F366-4080-8693-FA53C4B13904}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MNIST GUI", "MNIST GUI\MNIST GUI.csproj", "{7EA8F8CD-BAF6-44CA-9B6C-C641C3CA75A1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{C53CE025-F366-4080-8693-FA53C4B13904}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C53CE025-F366-4080-8693-FA53C4B13904}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C53CE025-F366-4080-8693-FA53C4B13904}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7EA8F8CD-BAF6-44CA-9B6C-C641C3CA75A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7EA8F8CD-BAF6-44CA-9B6C-C641C3CA75A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7EA8F8CD-BAF6-44CA-9B6C-C641C3CA75A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7EA8F8CD-BAF6-44CA-9B6C-C641C3CA75A1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
