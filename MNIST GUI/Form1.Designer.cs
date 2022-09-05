@@ -55,13 +55,17 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(16F, 31F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(2166, 1006);
+            this.ClientSize = new System.Drawing.Size(3844, 1006);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.predictButton);
             this.Name = "Form1";
             this.Text = "Form1";
+            this.Load += new System.EventHandler(this.Form1_Load);
             this.ResizeEnd += new System.EventHandler(this.Form1_ResizeEnd);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.Form1_Paint);
+            this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseDownEvent);
+            this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseMoveEvent);
+            this.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseUpEvent);
             this.ResumeLayout(false);
             this.PerformLayout();
 

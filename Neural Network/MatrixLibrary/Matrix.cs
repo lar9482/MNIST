@@ -78,6 +78,7 @@ namespace Neural_Network.MatrixLibrary
                 }
             });
 
+            
             /*for (int cur_Row = 0; cur_Row < rows; cur_Row++)
             {
                 for (int cur_Col = 0; cur_Col < cols; cur_Col++)

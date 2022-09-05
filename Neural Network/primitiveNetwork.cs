@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Diagnostics;
 using Neural_Network.MatrixLibrary;
 using Neural_Network.Activation;
 using Neural_Network.Error;
@@ -22,7 +23,7 @@ namespace Neural_Network
     {
         public static void Main(String[] args)
         {
-            int sampling = 5;
+            /*int sampling = 5;
             int features = 10;
 
             int layerSize1 = 5;
@@ -65,13 +66,95 @@ namespace Neural_Network
             hiddenLayer2.updateBias();
 
             hiddenLayer1.updateWeights();
-            hiddenLayer1.updateBias();
+            hiddenLayer1.updateBias();*/
 
             //Matrix actualVector = outputLayer.contents;
 
             /*Matrix inputSubset = Matrix_Utilities.getMatrixColumns(inputVector, new List<int> { 2, 4 });
             inputVector.printMatrix();
             inputSubset.printMatrix();*/
+
+            matrixParallelObservation();
+        }
+
+        public static void matrixParallelObservation()
+        {
+            Matrix matrix1 = new Matrix(1000, 1000);
+            Matrix matrix2 = new Matrix(1000, 1000);
+
+            Stopwatch timer1 = new Stopwatch();
+            Stopwatch timer2 = new Stopwatch();
+            Stopwatch timer3 = new Stopwatch();
+
+            timer1.Start();
+            Matrix parallel = matrix1.matrixMultiply(matrix2);
+            timer1.Stop();
+            timer2.Start();
+            Matrix serialMatrix = serialMuliply(matrix1, matrix2);
+            timer2.Stop();
+
+            timer3.Start();
+            Matrix nestedMatrix = nestedTest(matrix1, matrix2);
+            timer3.Stop();
+            Console.WriteLine(parallel.Equals(serialMatrix));
+            Console.WriteLine(nestedMatrix.Equals(serialMatrix));
+            Console.WriteLine(timer1.ElapsedMilliseconds);
+            Console.WriteLine(timer2.ElapsedMilliseconds);
+            Console.WriteLine(timer3.ElapsedMilliseconds);
+        }
+
+        public static Matrix nestedTest(Matrix firstMatrix, Matrix secondMatrix)
+        {
+            double[,] newData = new double[firstMatrix.rows, secondMatrix.cols];
+            Parallel.For(0, firstMatrix.rows, i =>
+            {
+
+                Parallel.For(0, secondMatrix.cols, j =>
+                {
+                    double sum = 0;
+
+                    Parallel.For(0, secondMatrix.rows, k =>
+                    {
+                        sum += (firstMatrix.data[i, k] * secondMatrix.data[k, j]);
+                    });
+
+                    newData[i, j] = sum;
+                });
+            });
+            /*for (int i = 0; i < firstMatrix.rows; i++)
+            {
+                for (int j = 0; j < secondMatrix.cols; j++)
+                {
+                    double sum = 0;
+                    for (int k = 0; k < secondMatrix.rows; k++)
+                    {
+                        sum += (firstMatrix.data[i, k] * secondMatrix.data[k, j]);
+                    }
+
+                    newData[i, j] = sum;
+                }
+            }*/
+
+            return new Matrix(newData);
+        }
+        public static Matrix serialMuliply(Matrix firstMatrix, Matrix secondMatrix)
+        {
+            double[,] newData = new double[firstMatrix.rows, secondMatrix.cols];
+            for (int i = 0; i < firstMatrix.rows; i++)
+            {
+                for (int j = 0; j < secondMatrix.cols; j++)
+                {
+                    double sum = 0;
+                    for (int k = 0; k < secondMatrix.rows; k++)
+                    {
+                        sum += (firstMatrix.data[i, k] * secondMatrix.data[k, j]);
+                    }
+
+                    newData[i, j] = sum;
+                }
+            }
+
+            return new Matrix(newData);
         }
     }
 }
