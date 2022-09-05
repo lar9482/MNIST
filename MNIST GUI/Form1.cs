@@ -110,13 +110,13 @@ namespace MNIST_GUI
         private void updateData(int row, int column)
         {
             
-            if ((row < 0 || row >= numCells) && (column < 0 || column >= numCells)) { return; }
+            if ((row < 0 || row >= numCells) || (column < 0 || column >= numCells)) { return; }
 
             for (int i = row-5; i <= row+5; i++)
             {
                 for (int j = column-5; j <= column+5; j++)
                 {
-                    if ((i < 0 || i >= numCells) && (j < 0 || j >= numCells)) { continue; }
+                    if ((i < 0 || i >= numCells) || (j < 0 || j >= numCells)) { continue; }
 
                     int rowDifference = Math.Abs(row - i);
                     int columnDifference = Math.Abs(column - j);
