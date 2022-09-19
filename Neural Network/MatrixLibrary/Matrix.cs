@@ -233,6 +233,9 @@ namespace Neural_Network.MatrixLibrary
         public Matrix invertElements()
         {
             double[,] newData = new double[rows, cols];
+
+            
+
             Parallel.For(0, rows, i =>
             {
                 for (int j = 0; j < cols; j++)
@@ -244,6 +247,23 @@ namespace Neural_Network.MatrixLibrary
             return new Matrix(newData);
         }
 
+        public Matrix flatten()
+        {
+            double[,] newData = new double[rows*cols, 1];
+
+            int index = 0;
+            for (int i = 0; i < rows; i++)
+            {
+                for (int j = 0; j < cols; j++)
+                {
+                    newData[index, 0] = data[i, j];
+                    index++;
+                }
+            }
+            
+
+            return new Matrix(newData);
+        }
         public bool sameSize(Matrix matrix)
         {
             return (rows == matrix.rows && cols == matrix.cols);

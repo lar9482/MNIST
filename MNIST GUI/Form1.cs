@@ -11,6 +11,7 @@ using System.Threading;
 
 using Neural_Network.MatrixLibrary;
 using Neural_Network.MatrixLibrary.Utilities;
+using Neural_Network.Network.FeedForward;
 using SerializationTools.Network.FeedForward;
 
 namespace MNIST_GUI
@@ -18,12 +19,23 @@ namespace MNIST_GUI
     public partial class Form1 : Form
     {
         private const int numCells = 28;
+        private const int gridWidthUpdate = 5;
+
+        private const int gridSlope = 50;
+        private const int gridConstant = 55;
+
+        private static string basePath = System.IO.Path.GetFullPath(@"..\..\");
+        private const string networkFile = "MNIST_NeuralNetwork_100.json";
+
         private double[,] data;
-        
+
         private int cellWidth;
         private int cellHeight;
 
         private bool drawingWithMouse = false;
+        private List<Point> usedPoints;
+
+        private FeedForward_Network network;
         
         public Form1()
         {
@@ -31,10 +43,16 @@ namespace MNIST_GUI
 
             initializeData();
             updateDataDimension();
+
+            network = FeedForward_Network_Object.loadObject(String.Join("\\", new string[] { basePath, networkFile }));
         }
 
         private void predictButton_Click(object sender, EventArgs e)
         {
+            Matrix dataMatrix = new Matrix(data);
+            dataMatrix = dataMatrix.flatten();
+            dataMatrix = dataMatrix.scalarMultiply(-1);
+            dataMatrix = dataMatrix.scalarAdd(255);
             textBox1.Text = "test";
         }
 
@@ -84,10 +102,6 @@ namespace MNIST_GUI
         {
             cellWidth = (this.Width / numCells);
             cellHeight = ((int) (0.75 * this.Height)) / numCells;
-
-            Console.WriteLine(cellWidth);
-            Console.WriteLine(this.Width);
-            Console.WriteLine(this.Width % numCells);
         }
 
         private void updatePredictButtonLocation()
@@ -111,32 +125,57 @@ namespace MNIST_GUI
         {
             
             if ((row < 0 || row >= numCells) || (column < 0 || column >= numCells)) { return; }
-
-            for (int i = row-5; i <= row+5; i++)
+            int gridRadius = (int) gridWidthUpdate / 2;
+            for (int i = row - gridRadius; i <= row+ gridRadius; i++)
             {
-                for (int j = column-5; j <= column+5; j++)
+                for (int j = column- gridRadius; j <= column+ gridRadius; j++)
                 {
                     if ((i < 0 || i >= numCells) || (j < 0 || j >= numCells)) { continue; }
 
-                    int rowDifference = Math.Abs(row - i);
-                    int columnDifference = Math.Abs(column - j);
+                    if (i == row && j == column)
+                    {
+                        Console.WriteLine();
+                    }
+                    int newData = 0;
+                    if ((int)data[i, j] == 255)
+                    {
+                        int rowAggregate = gridSlope * Math.Abs(i - row) + gridConstant;
+                        int columnAggregate = gridSlope * Math.Abs(j - column) + gridConstant;
 
-                    int previousData = (int) data[row, column];
-
+                        newData = rowAggregate + columnAggregate;
+                    }
+                    else
+                    {
+                        newData = (int)data[i, j] - 55;
+                    }
+                    
+                    if (newData > 255)
+                    {
+                        data[i, j] = 255;
+                    }
+                    else if (newData < 0)
+                    {
+                        data[i, j] = 0;
+                    }
+                    else
+                    {
+                        data[i, j] = newData;
+                    }
                 }
             }
-            data[row, column] = 0;
             
         }
 
         private void Form1_MouseDownEvent(object sender, MouseEventArgs e)
         {
             drawingWithMouse = true;
+            usedPoints = new List<Point>();
         }
 
         private void Form1_MouseUpEvent(object sender, MouseEventArgs e)
         {
             drawingWithMouse = false;
+            usedPoints.Clear();
         }
 
         private void Form1_MouseMoveEvent(object sender, MouseEventArgs e)
@@ -154,11 +193,18 @@ namespace MNIST_GUI
                 int row = (x - (x % baseDifference)) / baseDifference;
                 int col = (y - (y % cellHeight)) / (cellHeight);
 
-                updateData(row, col);
-                Refresh();
+                Point usedPoint = new Point(row, col);
                 
-                Console.WriteLine(row + ", " + col);
-                Console.WriteLine();
+                if (!usedPoints.Contains(usedPoint))
+                {
+                    updateData(row, col);
+                    usedPoints.Add(usedPoint);
+                }
+
+
+                //updateData(row, col);
+                Refresh();
+              
             }
         }
 
