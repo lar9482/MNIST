@@ -47,45 +47,6 @@ namespace MNIST_GUI
             network = FeedForward_Network_Object.loadObject(String.Join("\\", new string[] { basePath, networkFile }));
         }
 
-        private void predictButton_Click(object sender, EventArgs e)
-        {
-            Matrix dataMatrix = new Matrix(data);
-            dataMatrix = dataMatrix.flatten();
-            dataMatrix = dataMatrix.scalarMultiply(-1);
-            dataMatrix = dataMatrix.scalarAdd(255);
-            textBox1.Text = "test";
-        }
-
-        private void Form1_Paint(object sender, PaintEventArgs e)
-        {
-
-            for (int i = 0; i < numCells; i++)
-            {
-                for (int j = 0; j < numCells; j++)
-                {
-                    SolidBrush brush = new SolidBrush(Color.FromArgb((int)data[i, j], (int)data[i, j], (int)data[i, j]));
-                    //Pen pen = new Pen(Color.White);
-                    Rectangle newCell = new Rectangle(cellWidth * i, cellHeight * j, cellWidth, cellHeight);
-
-                    e.Graphics.FillRectangle(brush, newCell);
-                    //e.Graphics.DrawRectangle(pen, newCell);
-                }
-            }
-        }
-
-        private void Form1_ResizeEnd(Object sender, EventArgs e)
-        {
-            updateDataDimension();
-            updatePredictButtonLocation();
-            updateTextBoxLocation();
-            Refresh();
-        }
-
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-            
-        }
-
         private void initializeData()
         {
             data = new double[numCells, numCells];
@@ -98,6 +59,40 @@ namespace MNIST_GUI
             }
         }
 
+        private void predictButton_Click(object sender, EventArgs e)
+        {
+            Matrix dataMatrix = new Matrix(data);
+            dataMatrix = dataMatrix.flatten();
+            dataMatrix = dataMatrix.scalarMultiply(-1);
+            dataMatrix = dataMatrix.scalarAdd(255);
+
+            Matrix inputMatrix = new Matrix(network.inputFeatureSize, network.samplingSize, 0, 0);
+            textBox1.Text = "test";
+        }
+
+        private void Form1_Paint(object sender, PaintEventArgs e)
+        {
+
+            for (int i = 0; i < numCells; i++)
+            {
+                for (int j = 0; j < numCells; j++)
+                {
+                    SolidBrush brush = new SolidBrush(Color.FromArgb((int)data[i, j], (int)data[i, j], (int)data[i, j]));
+                    Rectangle newCell = new Rectangle(cellWidth * i, cellHeight * j, cellWidth, cellHeight);
+                    e.Graphics.FillRectangle(brush, newCell);
+                }
+            }
+        }
+
+        private void Form1_ResizeEnd(Object sender, EventArgs e)
+        {
+            updateDataDimension();
+            updatePredictButtonLocation();
+            updateTextBoxLocation();
+            Refresh();
+        }
+
+        
         private void updateDataDimension()
         {
             cellWidth = (this.Width / numCells);
@@ -121,6 +116,11 @@ namespace MNIST_GUI
                                                 this.predictButton.Location.Y + this.predictButton.Height);
         }
 
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
         private void updateData(int row, int column)
         {
             
@@ -132,11 +132,8 @@ namespace MNIST_GUI
                 {
                     if ((i < 0 || i >= numCells) || (j < 0 || j >= numCells)) { continue; }
 
-                    if (i == row && j == column)
-                    {
-                        Console.WriteLine();
-                    }
-                    int newData = 0;
+                    int newData;
+
                     if ((int)data[i, j] == 255)
                     {
                         int rowAggregate = gridSlope * Math.Abs(i - row) + gridConstant;
@@ -200,9 +197,6 @@ namespace MNIST_GUI
                     updateData(row, col);
                     usedPoints.Add(usedPoint);
                 }
-
-
-                //updateData(row, col);
                 Refresh();
               
             }

@@ -28,6 +28,13 @@ namespace Neural_Network.MatrixLibrary
 
             this.data = generateRandomArray(rows, cols);
         }
+        public Matrix(int rows, int cols, int lowerBound = -1, int upperBound = 1)
+        {
+            this.rows = rows;
+            this.cols = cols;
+
+            this.data = generateRandomArray(rows, cols, lowerBound, upperBound);
+        }
 
         public Matrix(double[,] data)
         {
